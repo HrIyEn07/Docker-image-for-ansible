@@ -1,15 +1,19 @@
 FROM ubuntu:latest
 
+# Install SSH server
 RUN apt-get update && apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN echo 'root:AzureDevOpsPulse@12345' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+# Create SSH directory and add SSH key
+RUN mkdir /root/.ssh
+COPY ansible-auth-key.pub /root/.ssh/authorized_keys
 
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
+# Configure SSH server
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin without-password/' /etc/ssh/sshd_config \
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
+    && echo "export VISIBLE=now" >> /etc/profile
 
+# Expose SSH port
 EXPOSE 22
+
+# Start SSH server
 CMD ["/usr/sbin/sshd", "-D"]

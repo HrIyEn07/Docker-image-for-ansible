@@ -11,7 +11,7 @@
 
 Run the container:
 
-```docker run -d HrIyEn07/Docker-image-for-ansible```
+```docker run -d Hriyen07/Docker-image-for-ansible```
 
 Identify the Internal IP
 
