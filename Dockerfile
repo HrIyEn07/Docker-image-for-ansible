@@ -1,19 +1,15 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 
-# Install SSH server
 RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:Pulse@1234' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Create SSH directory and add SSH key
-RUN mkdir /root/.ssh
-COPY ansible-auth-key.pub /root/.ssh/authorized_keys
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
-# Configure SSH server
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin without-password/' /etc/ssh/sshd_config \
-    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
-    && echo "export VISIBLE=now" >> /etc/profile
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
 
-# Expose SSH port
 EXPOSE 22
-
-# Start SSH server
 CMD ["/usr/sbin/sshd", "-D"]

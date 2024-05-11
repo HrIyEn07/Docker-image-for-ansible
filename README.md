@@ -7,11 +7,11 @@
   <p><strong>ssh enabled ubuntu image and ready to use!</strong></p>
 </div>
 
-## Use:
+## Use below commands:
 
 Run the container:
 
-```docker run -d Hriyen07/Docker-image-for-ansible```
+```docker run -d hriyen777/docker-image-for-ansible```
 
 Identify the Internal IP
 
@@ -23,11 +23,13 @@ SSH
 
 **Username:** root
 
-**Password:** AzureDevOpsPulse@12345
+**Password:** Pulse@1234
 
 
 ## Level Up Your DevOps Skills
 
-If you're eager to enhance your DevOps expertise, consider subscribing to [Azure DevOps Pulse](https://www.youtube.com/@AzureDevOpsPulse) on YouTube. It's a goldmine of insights to fuel your learning journey.
+If you're eager to enhance your DevOps expertise, consider subscribing to [Azure DevOps Pulse](https://www.youtube.com/@AzureDevOpsPulse) on YouTube. 
+
+It's a goldmine of insights to fuel your learning journey.
 
 Happy learning! 🚀
